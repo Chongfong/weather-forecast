@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import CityInput from './components/CityInput';
+import SearchBox from './components/SearchBox';
 import { Provider } from 'react-redux';
 import store from './app/store';
 
@@ -10,7 +10,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <form>
-            <CityInput />
+            <SearchBox />
           </form>
         </header>
       </div>
