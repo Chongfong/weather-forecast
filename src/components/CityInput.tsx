@@ -72,7 +72,9 @@ export const CityInput = () => {
   return (
     <>
       <input
+        className="w-full h-14 mx-5"
         value={cityText}
+        placeholder="Search a city"
         onChange={handleChange}
         onKeyDown={handleKeyboardEvent}
         onFocus={handleFocus}
@@ -80,20 +82,25 @@ export const CityInput = () => {
           setTimeout(handleFocusOut, 500);
         }}
       ></input>
-      {inputFocus &&
-        cityList
-          .filter((a) => a.name.slice(0, cityText.length).toLowerCase() === cityText.toLowerCase())
-          .slice(0, 5)
-          .map((e) => (
-            <div key={e.id}>
+      <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-3">
+        {inputFocus &&
+          cityList
+            .filter((a) => a.name.slice(0, cityText.length).toLowerCase() === cityText.toLowerCase())
+            .slice(0, 5)
+            .map((e) => (
               <div
-                onClick={() => {
-                  dispatch(setCity(e.name));
-                  dispatch(setCityIsClicked(true));
-                }}
-              >{`${e.name}, ${e.country}`}</div>
-            </div>
-          ))}
+                className="my-1 hover:bg-gray-300 hover:cursor-pointer hover:text-stone-800 hover:font-bold pl-5 rounded-lg"
+                key={e.id}
+              >
+                <div
+                  onClick={() => {
+                    dispatch(setCity(e.name));
+                    dispatch(setCityIsClicked(true));
+                  }}
+                >{`${e.name}, ${e.country}`}</div>
+              </div>
+            ))}
+      </div>
       {weather.length > 0 && <p>{weather[0].list[0].weather[0].description}</p>}
       <p>{errorMessage && errorMessage}</p>
     </>
