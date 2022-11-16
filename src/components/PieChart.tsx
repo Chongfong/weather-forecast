@@ -1,10 +1,11 @@
 import { WeatherType } from '../interface/weather';
 
-const PieChart = ({ data, humidity }: { data: WeatherType[]; humidity: number | boolean }) => {
+const PieChart = ({ title, data, humidity }: { title: string; data: WeatherType[]; humidity: number | boolean }) => {
   return (
     <>
       {data.length > 0 && (
-        <div className="w-full md:w-4/5 text-base mx-auto flex justify-center">
+        <div className="w-full md:w-4/5 text-base mx-auto flex justify-center flex-wrap">
+          <p className="w-full text-xl md:text-2xl text-slate-700 my-2">{title}</p>
           <svg width="40%" height="40%" viewBox="0 0 40 40">
             <circle cx="20" cy="20" r="15.91549430918954" fill="#fff"></circle>
             <circle

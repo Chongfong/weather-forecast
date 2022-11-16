@@ -37,7 +37,7 @@ const ForeCast = () => {
         <div className="w-96 md:w-2/3 flex flex-wrap mx-auto">
           <div className="w-full flex flex-nowrap">
             <div className="w-full ">
-              <PieChart data={weatherData} humidity={humidity} />
+              <PieChart title={'Humidity'} data={weatherData} humidity={humidity} />
             </div>
             <div className="w-full"></div>
           </div>
