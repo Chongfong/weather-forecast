@@ -57,3 +57,8 @@ export interface City {
   sunrise: number;
   sunset: number;
 }
+
+export interface BarType {
+  name: string;
+  value: number;
+}

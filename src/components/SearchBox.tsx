@@ -1,12 +1,38 @@
 import CityInput from './CityInput';
 import CityButton from './CityButton';
 import PieChart from './PieChart';
+import BarChart from './BarChart';
 import { useAppSelector } from '../app/hooks';
-import { WeatherType } from '../interface/weather';
+import { WeatherType, BarType } from '../interface/weather';
+import { transformDate } from '../utils/share';
 
 const SearchBox = () => {
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
+  const max: BarType[] = [];
+  for (let i = 0; i < 40; i += 8) {
+    if (weatherData.length > 0) {
+      const maxTemp = weatherData[0].list.slice(i, i + 8).reduce(function (acc, n) {
+        if (n.main.temp_max > acc) {
+          acc = n.main.temp_max;
+        }
+        return acc;
+      }, 0);
+      max.push({ name: transformDate(weatherData[0].list[i].dt), value: maxTemp });
+    }
+  }
+  const min: BarType[] = [];
+  for (let i = 0; i < 40; i += 8) {
+    if (weatherData.length > 0) {
+      const minTemp = weatherData[0].list.slice(i, i + 8).reduce(function (acc, n) {
+        if (n.main.temp_min < acc) {
+          acc = n.main.temp_min;
+        }
+        return acc;
+      }, 200);
+      min.push({ name: transformDate(weatherData[0].list[i].dt), value: minTemp });
+    }
+  }
   return (
     <>
       <>
@@ -15,6 +41,8 @@ const SearchBox = () => {
             <CityInput />
             <CityButton />
             <PieChart data={weatherData} humidity={humidity} />
+            <BarChart data={max} />
+            <BarChart data={min} />
           </div>
         </div>
       </>
