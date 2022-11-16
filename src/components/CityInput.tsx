@@ -4,6 +4,8 @@ import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
 import { CityType } from '../interface/weather';
 
+const apiKey = process.env.REACT_APP_OPENWEATHER_APIKEY;
+
 const initialCities = cities as CityType[];
 
 export const CityInput = () => {
@@ -40,14 +42,14 @@ export const CityInput = () => {
 
   const fetchWeather = (lat: number, lon: number) => {
     fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=779c170d318be9b34730fc7636bcfde9&units=metric`
+      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=${apiKey}&units=metric`
     )
       .then((data) => data.json())
       .then((res) => dispatch(setWeatherData([res])));
   };
 
   const handleFetch = async (city: string) => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=779c170d318be9b34730fc7636bcfde9`)
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`)
       .then((res) => {
         if (res.ok) {
           return res.json();
