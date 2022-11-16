@@ -1,15 +1,14 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCity, setCityIsClicked, setErrorMessage } from './cityText/cityText.slice';
+import { setCity, setCityIsClicked, setErrorMessage, setWeatherData } from './cityText/cityText.slice';
 import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
-import { CityType, WeatherType } from '../interface/weather';
+import { CityType } from '../interface/weather';
 
 const initialCities = cities as CityType[];
 
 export const CityInput = () => {
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
-  const [weather, setWeather] = useState<WeatherType[]>([]);
   const cityText = useAppSelector((state) => state.cityText.city);
   const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
   const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
@@ -41,10 +40,10 @@ export const CityInput = () => {
 
   const fetchWeather = (lat: number, lon: number) => {
     fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=779c170d318be9b34730fc7636bcfde9`
+      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=779c170d318be9b34730fc7636bcfde9&units=metric`
     )
       .then((data) => data.json())
-      .then((res) => setWeather([res]));
+      .then((res) => dispatch(setWeatherData([res])));
   };
 
   const handleFetch = async (city: string) => {
@@ -101,7 +100,6 @@ export const CityInput = () => {
               </div>
             ))}
       </div>
-      {weather.length > 0 && <p>{weather[0].list[0].weather[0].description}</p>}
       <p>{errorMessage && errorMessage}</p>
     </>
   );

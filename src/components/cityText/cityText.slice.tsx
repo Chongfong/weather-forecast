@@ -4,6 +4,7 @@ const initialState = {
   city: '',
   isClicked: false,
   errorMessage: '',
+  weatherData: [],
 };
 
 export const cityTextSlice = createSlice({
@@ -19,9 +20,12 @@ export const cityTextSlice = createSlice({
     setErrorMessage: (state, action) => {
       state.errorMessage = action.payload;
     },
+    setWeatherData: (state, action) => {
+      state.weatherData = action.payload;
+    },
   },
 });
 
-export const { setCity, setCityIsClicked, setErrorMessage } = cityTextSlice.actions;
+export const { setCity, setCityIsClicked, setErrorMessage, setWeatherData } = cityTextSlice.actions;
 
 export default cityTextSlice.reducer;
