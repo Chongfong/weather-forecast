@@ -4,8 +4,8 @@ const PieChart = ({ data, humidity }: { data: WeatherType[]; humidity: number | 
   return (
     <>
       {data.length > 0 && (
-        <div className="w-full md:w-4/5 text-base mx-auto">
-          <svg width="100%" height="100%" viewBox="0 0 40 40">
+        <div className="w-full md:w-4/5 text-base mx-auto flex justify-center">
+          <svg width="40%" height="40%" viewBox="0 0 40 40">
             <circle cx="20" cy="20" r="15.91549430918954" fill="#fff"></circle>
             <circle
               cx="20"
@@ -27,7 +27,7 @@ const PieChart = ({ data, humidity }: { data: WeatherType[]; humidity: number | 
             ></circle>
             <g className="fill-sky-600">
               <text y="50%" transform="translate(0, 2)">
-                <tspan x="50%" textAnchor="middle" className=" text-[0.5rem] leading-4 translate-y-0 font-bold">
+                <tspan x="50%" textAnchor="middle" className="text-[0.5rem] leading-4 translate-y-0 font-bold">
                   {humidity}%
                 </tspan>
               </text>

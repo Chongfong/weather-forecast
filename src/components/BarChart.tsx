@@ -4,12 +4,12 @@ import { BarType } from '../interface/weather';
 function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHeight: number }) {
   const barPadding = 2;
   const barColour = d.value > 0 ? '#D01B1B' : '#0284c7';
-  const widthScale = (d: number) => d * 10;
+  const widthScale = (d: number) => d * 7;
 
   const width = widthScale(Math.abs(d.value));
   const yMid = barHeight * 0.5;
-  const textPosition = Math.abs(d.value) > 5 ? 'end' : 'start';
-  const textColor = Math.abs(d.value) > 5 ? 'white' : 'black';
+  const textPosition = Math.abs(d.value) > 8 ? 'end' : 'start';
+  const textColor = Math.abs(d.value) > 8 ? 'white' : 'black';
 
   return (
     <g>
@@ -33,7 +33,7 @@ function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHei
   );
 }
 
-const BarChart = ({ data }: { data: BarType[] }) => {
+const BarChart = ({ title, data }: { title: string; data: BarType[] }) => {
   const barHeight = 30;
 
   const barGroups = data.map((d, i) => (
@@ -46,11 +46,18 @@ const BarChart = ({ data }: { data: BarType[] }) => {
 
   return (
     <>
-      <svg width="800" height="300">
-        <g className="container">
-          <g transform="translate(100,60)">{barGroups}</g>
-        </g>
-      </svg>
+      <div className="w-full md:4/5 flex flex-wrap justify-center">
+        <div className="w-full">
+          <svg width="100%" height="220">
+            <g>
+              <g transform="translate(100,60)">{barGroups}</g>
+            </g>
+            <text className="fill-slate-700" x="150" y="30">
+              {title}
+            </text>
+          </svg>
+        </div>
+      </div>
     </>
   );
 };
