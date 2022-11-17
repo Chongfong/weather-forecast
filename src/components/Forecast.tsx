@@ -5,11 +5,12 @@ import UsefulData from './UsefulData';
 import Loader from './Loader';
 import { useAppSelector } from '../app/hooks';
 import { WeatherType, BarType, UsefulDataType } from '../interface/weather';
-import { transformDate } from '../utils/share';
+import { transformDate, capitalizeFirstLetter } from '../utils/share';
 import { useEffect, useState } from 'react';
 
 const ForeCast = () => {
   const [checkedCity, setCheckedCity] = useState('');
+  const userInputCity = capitalizeFirstLetter(useAppSelector((state) => state.cityText.city));
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
   const isLoading = useAppSelector((state) => state.cityText.loading);
   const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
@@ -49,7 +50,7 @@ const ForeCast = () => {
   }
   useEffect(() => {
     if (weatherData.length > 0) {
-      setCheckedCity(`${weatherData[0].city.name}, ${weatherData[0].city.country}`);
+      setCheckedCity(`${userInputCity}, ${weatherData[0].city.country}`);
     }
   }, [weatherData]);
   return (

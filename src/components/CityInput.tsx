@@ -9,6 +9,7 @@ const apiKey = process.env.REACT_APP_OPENWEATHER_APIKEY;
 const initialCities = cities as CityType[];
 
 export const CityInput = () => {
+  const [currentInput, setCurrentInput] = useState('');
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
   const cityText = useAppSelector((state) => state.cityText.city);
@@ -21,12 +22,13 @@ export const CityInput = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     dispatch(setErrorMessage(''));
-    dispatch(setCity(e.target.value));
+    setCurrentInput(e.target.value);
     dispatch(setCityIsClicked(false));
   };
   const handleKeyboardEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      dispatch(setCity(currentInput));
       dispatch(setCityIsClicked(true));
       dispatch(setWeatherData([]));
       dispatch(setLoading(true));
@@ -79,7 +81,7 @@ export const CityInput = () => {
     <>
       <input
         className="w-full h-14 mx-5"
-        value={cityText}
+        value={currentInput}
         placeholder="Search a city"
         onChange={handleChange}
         onKeyDown={handleKeyboardEvent}
@@ -91,7 +93,7 @@ export const CityInput = () => {
       <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-3">
         {inputFocus &&
           cityList
-            .filter((a) => a.name.slice(0, cityText.length).toLowerCase() === cityText.toLowerCase())
+            .filter((a) => a.name.slice(0, currentInput.length).toLowerCase() === currentInput.toLowerCase())
             .slice(0, 5)
             .map((e) => (
               <div
@@ -103,6 +105,7 @@ export const CityInput = () => {
                     dispatch(setWeatherData([]));
                     dispatch(setLoading(true));
                     dispatch(setCity(e.name));
+                    setCurrentInput(e.name);
                     dispatch(setCityIsClicked(true));
                   }}
                 >{`${e.name}, ${e.country}`}</div>

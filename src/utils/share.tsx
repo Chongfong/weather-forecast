@@ -11,3 +11,7 @@ export const transformHour = (timestamp: number) => {
   const dataValues = `${timeFormat(date.getHours())}:${timeFormat(date.getMinutes())}`;
   return dataValues;
 };
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.toLowerCase().slice(1);
+};
