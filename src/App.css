@@ -11,6 +11,11 @@ input:focus {
   outline: none;
 }
 
+.App-header {
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+}
+
 ::-webkit-scrollbar {
   height: 3px;
   width: 10px;

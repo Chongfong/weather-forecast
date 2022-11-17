@@ -4,7 +4,7 @@ import { BarType } from '../interface/weather';
 function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHeight: number }) {
   const barPadding = 2;
   const barColour = d.value > 0 ? '#D01B1B' : '#0284c7';
-  const widthScale = (d: number) => d * 7;
+  const widthScale = (d: number) => (window.innerWidth < 500 ? d * 3 : d * 7);
 
   const width = widthScale(Math.abs(d.value));
   const yMid = barHeight * 0.5;
@@ -35,6 +35,7 @@ function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHei
 }
 
 const BarChart = ({ title, data }: { title: string; data: BarType[] }) => {
+  const titlePosition = window.innerWidth < 500 ? 70 : 150;
   const barHeight = 30;
 
   const barGroups = data.map((d, i) => (
@@ -53,7 +54,7 @@ const BarChart = ({ title, data }: { title: string; data: BarType[] }) => {
             <g>
               <g transform="translate(100,60)">{barGroups}</g>
             </g>
-            <text className="fill-slate-700" x="150" y="30">
+            <text className="fill-slate-700" x={titlePosition} y="30">
               {title}
             </text>
           </svg>
