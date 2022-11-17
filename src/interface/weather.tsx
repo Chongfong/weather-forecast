@@ -23,9 +23,21 @@ export interface List {
   dt: number;
   main: Main;
   weather: Weather[];
+  clouds: Clouds;
+  wind: Wind;
   visibility: number;
   pop: number;
   dt_txt: string;
+}
+
+export interface Clouds {
+  all: number;
+}
+
+export interface Wind {
+  speed: number;
+  deg: number;
+  gust: number;
 }
 
 export interface Main {
@@ -61,4 +73,20 @@ export interface City {
 export interface BarType {
   name: string;
   value: number;
+}
+
+export interface WeatherDetailType {
+  date: string;
+  temp: number;
+  fellTemp: number;
+  weather: string;
+  icon: string;
+  pop: number;
+}
+
+export interface UsefulDataType {
+  cloud: number;
+  wind: number;
+  sunrise: number;
+  sunset: number;
 }

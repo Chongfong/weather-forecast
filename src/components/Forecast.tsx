@@ -1,10 +1,14 @@
 import PieChart from './PieChart';
 import BarChart from './BarChart';
+import WeatherData from './WeatherData';
+import UsefulData from './UsefulData';
 import { useAppSelector } from '../app/hooks';
-import { WeatherType, BarType } from '../interface/weather';
+import { WeatherType, BarType, UsefulDataType } from '../interface/weather';
 import { transformDate } from '../utils/share';
+import { useEffect, useState } from 'react';
 
 const ForeCast = () => {
+  const [checkedCity, setCheckedCity] = useState('');
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
   const max: BarType[] = [];
@@ -31,15 +35,33 @@ const ForeCast = () => {
       min.push({ name: transformDate(weatherData[0].list[i].dt), value: minTemp });
     }
   }
+  const usefulData: UsefulDataType[] = [];
+  if (weatherData.length > 0) {
+    usefulData.push({
+      cloud: weatherData[0].list[2].clouds.all,
+      wind: weatherData[0].list[2].wind.speed,
+      sunrise: weatherData[0].city.sunrise,
+      sunset: weatherData[0].city.sunset,
+    });
+  }
+  useEffect(() => {
+    if (weatherData.length > 0) {
+      setCheckedCity(`${weatherData[0].city.name}, ${weatherData[0].city.country}`);
+    }
+  }, [weatherData]);
   return (
     <>
       {weatherData.length > 0 && (
         <div className="w-96 md:w-2/3 flex flex-wrap mx-auto">
-          <div className="w-full flex flex-nowrap">
+          <div className="mx-auto my-5">{checkedCity}</div>
+          <div className="w-full flex flex-wrap md:flex-nowrap flex-col-reverse md:flex-row m">
             <div className="w-full ">
               <PieChart title={'Humidity'} data={weatherData} humidity={humidity} />
+              <UsefulData data={usefulData} />
             </div>
-            <div className="w-full"></div>
+            <div className="w-full flex flex-wrap">
+              <WeatherData />
+            </div>
           </div>
           <div className="w-full flex flex-wrap lg:flex-nowrap">
             <div className="w-full">
