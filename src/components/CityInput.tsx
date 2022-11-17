@@ -13,7 +13,6 @@ export const CityInput = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const cityText = useAppSelector((state) => state.cityText.city);
   const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
-  const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
   const [cityList] = useState<CityType[]>(
     initialCities
       .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 500))
@@ -29,6 +28,7 @@ export const CityInput = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       dispatch(setCityIsClicked(true));
+      dispatch(setWeatherData([]));
     }
   };
   const handleFocus = () => {
@@ -95,6 +95,7 @@ export const CityInput = () => {
               >
                 <div
                   onClick={() => {
+                    dispatch(setWeatherData([]));
                     dispatch(setCity(e.name));
                     dispatch(setCityIsClicked(true));
                   }}
@@ -102,7 +103,6 @@ export const CityInput = () => {
               </div>
             ))}
       </div>
-      <p>{errorMessage && errorMessage}</p>
     </>
   );
 };

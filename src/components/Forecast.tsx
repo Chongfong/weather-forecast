@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 const ForeCast = () => {
   const [checkedCity, setCheckedCity] = useState('');
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
+  const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
   const max: BarType[] = [];
   for (let i = 0; i < 40; i += 8) {
@@ -51,9 +52,9 @@ const ForeCast = () => {
   }, [weatherData]);
   return (
     <>
-      {weatherData.length > 0 && (
+      {weatherData.length > 0 ? (
         <div className="w-96 md:w-2/3 flex flex-wrap mx-auto">
-          <div className="mx-auto my-5">{checkedCity}</div>
+          <div className="mx-auto my-5 text-slate-700 font-bold">{checkedCity}</div>
           <div className="w-full flex flex-wrap md:flex-nowrap flex-col-reverse md:flex-row m">
             <div className="w-full ">
               <PieChart title={'Humidity'} data={weatherData} humidity={humidity} />
@@ -72,6 +73,8 @@ const ForeCast = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <p className="my-10 text-slate-700 font-bold">{errorMessage}</p>
       )}
     </>
   );
