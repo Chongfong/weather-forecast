@@ -53,19 +53,20 @@ const ForeCast = () => {
   return (
     <>
       {weatherData.length > 0 ? (
-        <div className="w-96 md:w-2/3 flex flex-wrap mx-auto">
-          <div className="mx-auto my-5 text-slate-700 font-bold">{checkedCity}</div>
-          <div className="w-full flex flex-wrap md:flex-nowrap flex-col-reverse md:flex-row m">
-            <div className="w-full ">
+        <div className="w-full md:w-2/3 flex flex-wrap mx-auto p-10 lg:p-0">
+          <div className="mx-auto mt-5 text-slate-700 font-bold lg:hidden">{checkedCity}</div>
+          <div className="w-full flex flex-wrap lg:flex-nowrap flex-col-reverse lg:flex-row m">
+            <div className="w-full flex flex-wrap content-between py-10 lg:pr-5">
+              <div className="mx-auto mt-5 text-slate-700 font-bold hidden lg:block">{checkedCity}</div>
               <PieChart title={'Humidity'} data={weatherData} humidity={humidity} />
               <UsefulData data={usefulData} />
             </div>
-            <div className="w-full flex flex-wrap">
+            <div className="w-full flex flex-wrap py-10 lg:pl-5">
               <WeatherData />
             </div>
           </div>
-          <div className="w-full flex flex-wrap lg:flex-nowrap">
-            <div className="w-full">
+          <div className="w-full flex flex-wrap lg:flex-nowrap mb-5 lg:mt-5 lg:mb-16">
+            <div className="w-full mb-10 lg:mb-0">
               <BarChart title={'Max Temperature'} data={max} />
             </div>
             <div className="w-full">
