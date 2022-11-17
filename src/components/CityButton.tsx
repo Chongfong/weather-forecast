@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../app/hooks';
-import { setCityIsClicked, setWeatherData } from './cityText/cityText.slice';
+import { setCityIsClicked, setWeatherData, setLoading } from './cityText/cityText.slice';
 
 const CityButton = () => {
   const dispatch = useAppDispatch();
@@ -10,6 +10,7 @@ const CityButton = () => {
         onClick={(e) => {
           e.preventDefault();
           dispatch(setWeatherData([]));
+          dispatch(setLoading(true));
           dispatch(setCityIsClicked(true));
         }}
       >

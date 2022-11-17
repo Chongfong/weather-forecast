@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCity, setCityIsClicked, setErrorMessage, setWeatherData } from './cityText/cityText.slice';
+import { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } from './cityText/cityText.slice';
 import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
 import { CityType } from '../interface/weather';
@@ -29,6 +29,7 @@ export const CityInput = () => {
       e.preventDefault();
       dispatch(setCityIsClicked(true));
       dispatch(setWeatherData([]));
+      dispatch(setLoading(true));
     }
   };
   const handleFocus = () => {
@@ -45,7 +46,10 @@ export const CityInput = () => {
       `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=${apiKey}&units=metric`
     )
       .then((data) => data.json())
-      .then((res) => dispatch(setWeatherData([res])));
+      .then((res) => {
+        dispatch(setWeatherData([res]));
+        dispatch(setLoading(false));
+      });
   };
 
   const handleFetch = async (city: string) => {
@@ -58,6 +62,7 @@ export const CityInput = () => {
       })
       .then((data) => {
         if (data.length === 0) {
+          dispatch(setLoading(false));
           dispatch(setErrorMessage('No such data'));
         } else {
           return [data[0].lat, data[0].lon];
@@ -96,6 +101,7 @@ export const CityInput = () => {
                 <div
                   onClick={() => {
                     dispatch(setWeatherData([]));
+                    dispatch(setLoading(true));
                     dispatch(setCity(e.name));
                     dispatch(setCityIsClicked(true));
                   }}

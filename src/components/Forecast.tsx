@@ -2,6 +2,7 @@ import PieChart from './PieChart';
 import BarChart from './BarChart';
 import WeatherData from './WeatherData';
 import UsefulData from './UsefulData';
+import Loader from './Loader';
 import { useAppSelector } from '../app/hooks';
 import { WeatherType, BarType, UsefulDataType } from '../interface/weather';
 import { transformDate } from '../utils/share';
@@ -10,6 +11,7 @@ import { useEffect, useState } from 'react';
 const ForeCast = () => {
   const [checkedCity, setCheckedCity] = useState('');
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
+  const isLoading = useAppSelector((state) => state.cityText.loading);
   const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
   const max: BarType[] = [];
@@ -75,7 +77,10 @@ const ForeCast = () => {
           </div>
         </div>
       ) : (
-        <p className="my-10 text-slate-700 font-bold">{errorMessage}</p>
+        <>
+          {isLoading && <Loader />}
+          <p className="my-10 text-slate-700 font-bold">{errorMessage}</p>
+        </>
       )}
     </>
   );
