@@ -3,8 +3,7 @@ import { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading 
 import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
 import { CityType } from '../interface/weather';
-
-const apiKey = process.env.REACT_APP_OPENWEATHER_APIKEY;
+import api from '../utils/api';
 
 const initialCities = cities as CityType[];
 
@@ -44,30 +43,21 @@ export const CityInput = () => {
   };
 
   const fetchWeather = (lat: number, lon: number) => {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=${apiKey}&units=metric`
-    )
-      .then((data) => data.json())
-      .then((res) => {
-        dispatch(setWeatherData([res]));
-        dispatch(setLoading(false));
-      });
+    api.getWeather(lat, lon).then((json) => {
+      dispatch(setWeatherData([json]));
+      dispatch(setLoading(false));
+    });
   };
 
   const handleFetch = async (city: string) => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error('Network response was not ok.');
-      })
-      .then((data) => {
-        if (data.length === 0) {
+    api
+      .getPosition(city)
+      .then((json) => {
+        if (json.length === 0) {
           dispatch(setLoading(false));
           dispatch(setErrorMessage('No such data'));
         } else {
-          return [data[0].lat, data[0].lon];
+          return [json[0].lat, json[0].lon];
         }
       })
       .then((location) => location && fetchWeather(location[0], location[1]));
