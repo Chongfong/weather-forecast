@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   city: '',
+  currentInput: '',
   isClicked: false,
   errorMessage: '',
   weatherData: [],
@@ -14,6 +15,9 @@ export const weatherForecastSlice = createSlice({
   reducers: {
     setCity: (state, action) => {
       state.city = action.payload;
+    },
+    setCurrentInput: (state, action) => {
+      state.currentInput = action.payload;
     },
     setCityIsClicked: (state, action) => {
       state.isClicked = action.payload;
@@ -30,6 +34,7 @@ export const weatherForecastSlice = createSlice({
   },
 });
 
-export const { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } = weatherForecastSlice.actions;
+export const { setCity, setCurrentInput, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } =
+  weatherForecastSlice.actions;
 
 export default weatherForecastSlice.reducer;

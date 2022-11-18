@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   setCity,
+  setCurrentInput,
   setCityIsClicked,
   setErrorMessage,
   setWeatherData,
@@ -14,9 +15,9 @@ import api from '../utils/api';
 const initialCities = cities as CityType[];
 
 export const SearchInput = () => {
-  const [currentInput, setCurrentInput] = useState('');
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
+  const currentInput = useAppSelector((state) => state.cityText.currentInput);
   const cityText = useAppSelector((state) => state.cityText.city);
   const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
   const [cityList] = useState<CityType[]>(
@@ -27,7 +28,7 @@ export const SearchInput = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     dispatch(setErrorMessage(''));
-    setCurrentInput(e.target.value);
+    dispatch(setCurrentInput(e.target.value));
     dispatch(setCityIsClicked(false));
   };
   const handleKeyboardEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -101,7 +102,7 @@ export const SearchInput = () => {
                     dispatch(setWeatherData([]));
                     dispatch(setLoading(true));
                     dispatch(setCity(e.name));
-                    setCurrentInput(e.name);
+                    dispatch(setCurrentInput(e.name));
                     dispatch(setCityIsClicked(true));
                   }}
                 >{`${e.name}, ${e.country}`}</div>
