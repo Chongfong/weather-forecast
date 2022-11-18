@@ -15,7 +15,7 @@ export const CityInput = () => {
   const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
   const [cityList] = useState<CityType[]>(
     initialCities
-      .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 500))
+      .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 1000))
       .filter((value, index, self) => index === self.findIndex((t) => t.name === value.name))
   );
 
