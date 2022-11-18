@@ -1,32 +1,43 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCity, setCityIsClicked, setErrorMessage, setWeatherData } from './cityText/cityText.slice';
+import {
+  setCity,
+  setCurrentInput,
+  setCityIsClicked,
+  setErrorMessage,
+  setWeatherData,
+  setLoading,
+} from './weatherForecast/weatherForecast.slice';
 import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
 import { CityType } from '../interface/weather';
+import api from '../utils/api';
 
 const initialCities = cities as CityType[];
 
-export const CityInput = () => {
+export const SearchInput = () => {
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
+  const currentInput = useAppSelector((state) => state.cityText.currentInput);
   const cityText = useAppSelector((state) => state.cityText.city);
   const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
-  const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
   const [cityList] = useState<CityType[]>(
     initialCities
-      .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 500))
+      .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 1000))
       .filter((value, index, self) => index === self.findIndex((t) => t.name === value.name))
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     dispatch(setErrorMessage(''));
-    dispatch(setCity(e.target.value));
+    dispatch(setCurrentInput(e.target.value));
     dispatch(setCityIsClicked(false));
   };
   const handleKeyboardEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      dispatch(setCity(currentInput));
       dispatch(setCityIsClicked(true));
+      dispatch(setWeatherData([]));
+      dispatch(setLoading(true));
     }
   };
   const handleFocus = () => {
@@ -39,26 +50,21 @@ export const CityInput = () => {
   };
 
   const fetchWeather = (lat: number, lon: number) => {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat.toString()}&lon=${lon.toString()}&appid=779c170d318be9b34730fc7636bcfde9&units=metric`
-    )
-      .then((data) => data.json())
-      .then((res) => dispatch(setWeatherData([res])));
+    api.getWeather(lat, lon).then((json) => {
+      dispatch(setWeatherData([json]));
+      dispatch(setLoading(false));
+    });
   };
 
   const handleFetch = async (city: string) => {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=779c170d318be9b34730fc7636bcfde9`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error('Network response was not ok.');
-      })
-      .then((data) => {
-        if (data.length === 0) {
+    api
+      .getPosition(city)
+      .then((json) => {
+        if (json.length === 0) {
+          dispatch(setLoading(false));
           dispatch(setErrorMessage('No such data'));
         } else {
-          return [data[0].lat, data[0].lon];
+          return [json[0].lat, json[0].lon];
         }
       })
       .then((location) => location && fetchWeather(location[0], location[1]));
@@ -72,7 +78,7 @@ export const CityInput = () => {
     <>
       <input
         className="w-full h-14 mx-5"
-        value={cityText}
+        value={currentInput}
         placeholder="Search a city"
         onChange={handleChange}
         onKeyDown={handleKeyboardEvent}
@@ -84,7 +90,7 @@ export const CityInput = () => {
       <div className="w-full h-auto text-left text-stone-600 rounded-b-3xl relative top-[-10px] py-3">
         {inputFocus &&
           cityList
-            .filter((a) => a.name.slice(0, cityText.length).toLowerCase() === cityText.toLowerCase())
+            .filter((a) => a.name.slice(0, currentInput.length).toLowerCase() === currentInput.toLowerCase())
             .slice(0, 5)
             .map((e) => (
               <div
@@ -93,16 +99,18 @@ export const CityInput = () => {
               >
                 <div
                   onClick={() => {
+                    dispatch(setWeatherData([]));
+                    dispatch(setLoading(true));
                     dispatch(setCity(e.name));
+                    dispatch(setCurrentInput(e.name));
                     dispatch(setCityIsClicked(true));
                   }}
                 >{`${e.name}, ${e.country}`}</div>
               </div>
             ))}
       </div>
-      <p>{errorMessage && errorMessage}</p>
     </>
   );
 };
 
-export default CityInput;
+export default SearchInput;

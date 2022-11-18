@@ -12,9 +12,6 @@ export interface CityLocationType {
 }
 
 export interface WeatherType {
-  cod: string;
-  message: number;
-  cnt: number;
   list: List[];
   city: City;
 }
@@ -23,9 +20,17 @@ export interface List {
   dt: number;
   main: Main;
   weather: Weather[];
-  visibility: number;
+  clouds: Clouds;
+  wind: Wind;
   pop: number;
-  dt_txt: string;
+}
+
+export interface Clouds {
+  all: number;
+}
+
+export interface Wind {
+  speed: number;
 }
 
 export interface Main {
@@ -33,16 +38,11 @@ export interface Main {
   feels_like: number;
   temp_min: number;
   temp_max: number;
-  pressure: number;
-  sea_level: number;
-  grnd_level: number;
   humidity: number;
-  temp_kf: number;
 }
 
 export interface Weather {
   id: number;
-  main: string;
   description: string;
   icon: string;
 }
@@ -52,8 +52,6 @@ export interface City {
   name: string;
   coord: CityLocationType;
   country: string;
-  population: number;
-  timezone: number;
   sunrise: number;
   sunset: number;
 }
@@ -61,4 +59,20 @@ export interface City {
 export interface BarType {
   name: string;
   value: number;
+}
+
+export interface WeatherDetailType {
+  date: string;
+  temp: number;
+  fellTemp: number;
+  weather: string;
+  icon: string;
+  pop: number;
+}
+
+export interface UsefulDataType {
+  cloud: number;
+  wind: number;
+  sunrise: number;
+  sunset: number;
 }

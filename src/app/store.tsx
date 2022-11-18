@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cityTextReducer from '../components/cityText/cityText.slice';
+import cityTextReducer from '../components/weatherForecast/weatherForecast.slice';
 
 const store = configureStore({
   reducer: {

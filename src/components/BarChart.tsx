@@ -4,27 +4,28 @@ import { BarType } from '../interface/weather';
 function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHeight: number }) {
   const barPadding = 2;
   const barColour = d.value > 0 ? '#D01B1B' : '#0284c7';
-  const widthScale = (d: number) => d * 7;
+  const widthScale = (d: number) => (window.innerWidth < 500 ? d * 3 : d * 7);
 
   const width = widthScale(Math.abs(d.value));
   const yMid = barHeight * 0.5;
-  const textPosition = Math.abs(d.value) > 8 ? 'end' : 'start';
-  const textColor = Math.abs(d.value) > 8 ? 'white' : 'black';
+  const baseLine = d.value >= 0 ? 30 : 30 - width;
+  const dayBaseLine = d.value >= 0 ? 24 : 75;
+  const textBaseLine = d.value >= 0 ? width + 85 : -10;
 
   return (
     <g>
-      <text className="text-base fill-slate-700" x="-6" y={yMid} alignmentBaseline="middle" textAnchor="end">
+      <text className="text-base fill-slate-700" x={dayBaseLine} y={yMid} alignmentBaseline="middle" textAnchor="end">
         {d.name}
       </text>
       <g className="opacity-60 hover:cursor-pointer hover:opacity-100">
-        <rect y={barPadding * 0.5} width={width} height={barHeight - barPadding} fill={barColour} />
+        <rect x={baseLine} y={barPadding * 0.5} width={width} height={barHeight - barPadding} fill={barColour} />
         <text
-          className="text-base"
-          x={width - 8}
+          className="text-base [text-shadow:_1px_1px_2px_rgb(255_255_255_/_80%)]"
+          x={textBaseLine}
           y={yMid}
           alignmentBaseline="middle"
-          textAnchor={textPosition}
-          fill={textColor}
+          textAnchor="end"
+          fill="black"
         >
           {`${Math.round(d.value * 10) / 10} °C`}
         </text>
@@ -34,6 +35,7 @@ function BarGroup({ d, barHeight }: { d: { name: string; value: number }; barHei
 }
 
 const BarChart = ({ title, data }: { title: string; data: BarType[] }) => {
+  const titlePosition = window.innerWidth < 500 ? 70 : 150;
   const barHeight = 30;
 
   const barGroups = data.map((d, i) => (
@@ -52,7 +54,7 @@ const BarChart = ({ title, data }: { title: string; data: BarType[] }) => {
             <g>
               <g transform="translate(100,60)">{barGroups}</g>
             </g>
-            <text className="fill-slate-700" x="150" y="30">
+            <text className="fill-slate-700" x={titlePosition} y="30">
               {title}
             </text>
           </svg>
