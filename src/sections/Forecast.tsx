@@ -1,8 +1,8 @@
-import PieChart from './PieChart';
-import BarChart from './BarChart';
-import WeatherData from './WeatherData';
-import UsefulData from './UsefulData';
-import Loader from './Loader';
+import PieChart from '../components/PieChart';
+import BarChart from '../components/BarChart';
+import WeatherData from '../components/DailyForecast';
+import UsefulData from '../components/AdditionalTable';
+import Loader from '../components/Loader';
 import { useAppSelector } from '../app/hooks';
 import { WeatherType, BarType, UsefulDataType } from '../interface/weather';
 import { transformDate, capitalizeFirstLetter } from '../utils/share';
@@ -12,7 +12,7 @@ const ForeCast = () => {
   const [checkedCity, setCheckedCity] = useState('');
   const userInputCity = capitalizeFirstLetter(useAppSelector((state) => state.cityText.city));
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
-  const isLoading = useAppSelector((state) => state.cityText.loading);
+  const isLoading = useAppSelector((state) => state.cityText.isloading);
   const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
   const max: BarType[] = [];

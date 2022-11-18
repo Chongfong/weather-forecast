@@ -1,5 +1,5 @@
-import CityInput from './CityInput';
-import CityButton from './CityButton';
+import CityInput from '../components/SearchInput';
+import CityButton from '../components/SearchButton';
 
 const SearchBox = () => {
   return (

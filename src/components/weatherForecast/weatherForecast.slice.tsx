@@ -5,11 +5,11 @@ const initialState = {
   isClicked: false,
   errorMessage: '',
   weatherData: [],
-  loading: false,
+  isloading: false,
 };
 
-export const cityTextSlice = createSlice({
-  name: 'cityText',
+export const weatherForecastSlice = createSlice({
+  name: 'weatherForecast',
   initialState,
   reducers: {
     setCity: (state, action) => {
@@ -25,11 +25,11 @@ export const cityTextSlice = createSlice({
       state.weatherData = action.payload;
     },
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.isloading = action.payload;
     },
   },
 });
 
-export const { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } = cityTextSlice.actions;
+export const { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } = weatherForecastSlice.actions;
 
-export default cityTextSlice.reducer;
+export default weatherForecastSlice.reducer;

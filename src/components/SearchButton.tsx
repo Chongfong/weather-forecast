@@ -1,7 +1,7 @@
 import { useAppDispatch } from '../app/hooks';
-import { setCityIsClicked, setWeatherData, setLoading } from './cityText/cityText.slice';
+import { setCityIsClicked, setWeatherData, setLoading } from './weatherForecast/weatherForecast.slice';
 
-const CityButton = () => {
+const SearchButton = () => {
   const dispatch = useAppDispatch();
   return (
     <>
@@ -20,4 +20,4 @@ const CityButton = () => {
   );
 };
 
-export default CityButton;
+export default SearchButton;

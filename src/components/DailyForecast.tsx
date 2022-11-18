@@ -3,7 +3,7 @@ import { useAppSelector } from '../app/hooks';
 import { WeatherType, WeatherDetailType } from '../interface/weather';
 import { transformDate } from '../utils/share';
 
-const WeatherData = () => {
+const DailyForecast = () => {
   const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
   const detail: WeatherDetailType[] = [];
   for (let i = 2; i < 40; i += 8) {
@@ -50,4 +50,4 @@ const WeatherData = () => {
   );
 };
 
-export default WeatherData;
+export default DailyForecast;

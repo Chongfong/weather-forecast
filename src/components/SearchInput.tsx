@@ -1,5 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCity, setCityIsClicked, setErrorMessage, setWeatherData, setLoading } from './cityText/cityText.slice';
+import {
+  setCity,
+  setCityIsClicked,
+  setErrorMessage,
+  setWeatherData,
+  setLoading,
+} from './weatherForecast/weatherForecast.slice';
 import cities from '../city.list.json';
 import { useEffect, useState } from 'react';
 import { CityType } from '../interface/weather';
@@ -7,7 +13,7 @@ import api from '../utils/api';
 
 const initialCities = cities as CityType[];
 
-export const CityInput = () => {
+export const SearchInput = () => {
   const [currentInput, setCurrentInput] = useState('');
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
@@ -106,4 +112,4 @@ export const CityInput = () => {
   );
 };
 
-export default CityInput;
+export default SearchInput;

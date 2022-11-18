@@ -1,7 +1,7 @@
 import { UsefulDataType } from '../interface/weather';
 import { transformHour } from '../utils/share';
 
-const UsefulData = ({ data }: { data: UsefulDataType[] }) => {
+const AdditionalTable = ({ data }: { data: UsefulDataType[] }) => {
   return (
     <>
       <div className="w-full text-xl text-slate-700 my-5 md:my-0 lg:px-5">
@@ -20,4 +20,4 @@ const UsefulData = ({ data }: { data: UsefulDataType[] }) => {
   );
 };
 
-export default UsefulData;
+export default AdditionalTable;

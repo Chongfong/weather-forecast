@@ -1,8 +1,8 @@
 import './App.css';
-import SearchBox from './components/SearchBox';
+import SearchBox from './sections/SearchBox';
+import ForeCast from './sections/Forecast';
 import { Provider } from 'react-redux';
 import store from './app/store';
-import ForeCast from './components/Forecast';
 
 function App() {
   return (
