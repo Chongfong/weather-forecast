@@ -4,7 +4,14 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+      spin: {
+        '0%': { transform: 'rotate(0)' },
+        '100%': { transform: 'rotate(360deg)' },
+      },
+    },
   },
+},
   plugins: [],
 }
