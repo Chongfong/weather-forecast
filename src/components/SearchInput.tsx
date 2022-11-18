@@ -17,9 +17,9 @@ const initialCities = cities as CityType[];
 export const SearchInput = () => {
   const dispatch = useAppDispatch();
   const [inputFocus, setInputFocus] = useState(false);
-  const currentInput = useAppSelector((state) => state.cityText.currentInput);
-  const cityText = useAppSelector((state) => state.cityText.city);
-  const cityIsClicked = useAppSelector((state) => state.cityText.isClicked);
+  const currentInput = useAppSelector((state) => state.weatherForecast.currentInput);
+  const cityText = useAppSelector((state) => state.weatherForecast.city);
+  const cityIsClicked = useAppSelector((state) => state.weatherForecast.isClicked);
   const [cityList] = useState<CityType[]>(
     initialCities
       .slice(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000 + 1000))
@@ -34,10 +34,12 @@ export const SearchInput = () => {
   const handleKeyboardEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      dispatch(setCity(currentInput));
-      dispatch(setCityIsClicked(true));
-      dispatch(setWeatherData([]));
-      dispatch(setLoading(true));
+      if (cityText !== currentInput) {
+        dispatch(setCity(currentInput));
+        dispatch(setCityIsClicked(true));
+        dispatch(setWeatherData([]));
+        dispatch(setLoading(true));
+      }
     }
   };
   const handleFocus = () => {
@@ -99,11 +101,13 @@ export const SearchInput = () => {
               >
                 <div
                   onClick={() => {
-                    dispatch(setWeatherData([]));
-                    dispatch(setLoading(true));
-                    dispatch(setCity(e.name));
                     dispatch(setCurrentInput(e.name));
-                    dispatch(setCityIsClicked(true));
+                    if (e.name !== cityText) {
+                      dispatch(setWeatherData([]));
+                      dispatch(setLoading(true));
+                      dispatch(setCity(e.name));
+                      dispatch(setCityIsClicked(true));
+                    }
                   }}
                 >{`${e.name}, ${e.country}`}</div>
               </div>

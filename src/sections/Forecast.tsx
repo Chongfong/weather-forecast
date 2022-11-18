@@ -10,10 +10,10 @@ import { useEffect, useState } from 'react';
 
 const ForeCast = () => {
   const [checkedCity, setCheckedCity] = useState('');
-  const userInputCity = capitalizeFirstLetter(useAppSelector((state) => state.cityText.city));
-  const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
-  const isLoading = useAppSelector((state) => state.cityText.isloading);
-  const errorMessage = useAppSelector((state) => state.cityText.errorMessage);
+  const userInputCity = capitalizeFirstLetter(useAppSelector((state) => state.weatherForecast.city));
+  const weatherData: WeatherType[] = useAppSelector((state) => state.weatherForecast.weatherData);
+  const isLoading = useAppSelector((state) => state.weatherForecast.isloading);
+  const errorMessage = useAppSelector((state) => state.weatherForecast.errorMessage);
   const humidity = weatherData.length > 0 && weatherData[0].list[0].main.humidity;
   const max: BarType[] = [];
   for (let i = 0; i < 40; i += 8) {
