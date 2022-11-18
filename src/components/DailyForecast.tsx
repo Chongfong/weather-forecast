@@ -4,7 +4,7 @@ import { WeatherType, WeatherDetailType } from '../interface/weather';
 import { transformDate } from '../utils/share';
 
 const DailyForecast = () => {
-  const weatherData: WeatherType[] = useAppSelector((state) => state.cityText.weatherData);
+  const weatherData: WeatherType[] = useAppSelector((state) => state.weatherForecast.weatherData);
   const detail: WeatherDetailType[] = [];
   for (let i = 2; i < 40; i += 8) {
     if (weatherData.length > 0) {

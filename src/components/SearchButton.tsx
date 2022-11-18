@@ -3,13 +3,16 @@ import { setCityIsClicked, setCity, setWeatherData, setLoading } from './weather
 
 const SearchButton = () => {
   const dispatch = useAppDispatch();
-  const currentInput = useAppSelector((state) => state.cityText.currentInput);
+  const cityText = useAppSelector((state) => state.weatherForecast.city);
+  const currentInput = useAppSelector((state) => state.weatherForecast.currentInput);
   const handleSearch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    dispatch(setWeatherData([]));
-    dispatch(setCity(currentInput));
-    dispatch(setLoading(true));
-    dispatch(setCityIsClicked(true));
+    if (cityText !== currentInput) {
+      e.preventDefault();
+      dispatch(setWeatherData([]));
+      dispatch(setCity(currentInput));
+      dispatch(setLoading(true));
+      dispatch(setCityIsClicked(true));
+    }
   };
   return (
     <>
