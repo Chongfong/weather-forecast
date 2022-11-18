@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import SearchBox from './components/SearchBox';
 import { Provider } from 'react-redux';
